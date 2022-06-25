@@ -1,0 +1,79 @@
+<html>
+<head>
+<link rel = "stylesheet" href = "main.css">
+<title>Blue Ball</title>
+</head>
+<body bgcolor = "white">
+<style>
+
+
+</style>
+<div class = "heading">
+<center><h1><div class = "text">BLUE BALL</div></h1></center>
+</div>
+
+
+<div class = "top_bar">
+	<a href = "home.html" class = "main">Home</a>
+    <a href = "leaderboard.html">Leader Board</a>
+</div>
+
+<center>
+    <h1 style = "font-size:max(5vw,40); border-radius: 100px;background-color: lightyellow;">LEADER BOARD</h1>
+    <div id = "table_1"></div>
+</center>
+
+<script>
+    
+    function interchange(a,b){
+
+        var val1 = localStorage.getItem(a);
+        var val2 = localStorage.getItem(b);
+        localStorage.setItem(a , val2);
+        localStorage.setItem(b , val1);
+    
+    }
+    // leaderboard
+    var count = localStorage.getItem("count");
+    if (count == null)
+    {
+        count = 0;
+    }
+    var table = document.getElementById("table_1");
+    var code = "<table class = 'leaderboard_table'><tr class = 'header'><td>RANK</td><td>NAME</td><td>SCORE</td></tr>";
+    
+    for(var i = 0 ; i < count ; i ++ ){
+        for(var j = i+1 ; j < count ; j ++ )
+        {
+            score_1 = parseInt(localStorage.getItem("Score"+i));
+            score_2 = parseInt(localStorage.getItem("Score"+j));
+            if(score_1 < score_2)
+            {
+                interchange("Score"+i , "Score"+j);
+                interchange("Name"+i , "Name"+j);
+            }
+        }
+    }
+
+    for(var i = 0 ; i < count ; i ++)
+    {
+        var cur_name = localStorage.getItem("Name"+i);
+        var cur_score = localStorage.getItem("Score"+i);
+        if (i == 0){
+            code += "<tr><td>"+(i+1)+"</td><td>"+cur_name+"<img style = 'float:right;' src = 'trophy/gold.png' width = 30px height = 30px></td><td>"+cur_score+"</td></td></tr>"
+        }
+        else if(i == 1){
+            code += "<tr><td>"+(i+1)+"</td><td>"+cur_name+"<img style = 'float:right;' src = 'trophy/silver.png' width =30px height = 30px></td><td>"+cur_score+"</td></td></tr>"
+        }
+        else if (i == 2){
+            code += "<tr><td>"+(i+1)+"</td><td>"+cur_name+"<img style = 'float:right;' src = 'trophy/bronze.png' width =30px height = 30px></td><td>"+cur_score+"</td></tr>"
+        }
+        else{
+            code += "<tr><td>"+(i+1)+"</td><td>"+cur_name+"</td><td>"+cur_score+"</td></tr>"
+        }
+    }
+    code += "</table>";
+    table.innerHTML = code;
+</script>
+</body>
+</html>
